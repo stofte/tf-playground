@@ -1,17 +1,22 @@
-import os
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+
 import argparse
 import sys
+
+from tensorflow.examples.tutorials.mnist import input_data
+
 import tensorflow as tf
-import numpy as np
-from mnist import show
-from tensorflow.contrib.learn.python.learn.datasets.mnist import read_data_sets
 
 FLAGS = None
+
+
 mnist_path = "/mnt/c/src/tf-playground/mnist"
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
 
 def main(_):
-    mnist = read_data_sets(FLAGS.data_dir, one_hot=True)
+    mnist = input_data.read_data_sets(FLAGS.data_dir, one_hot=True)
 
     X = tf.placeholder(tf.float32, [None, 784], 'X')
     W = tf.Variable(tf.zeros([784, 10]), 'W')
