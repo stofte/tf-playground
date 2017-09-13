@@ -1,7 +1,10 @@
 Tensorflow playground
 =====================
-
+    
 Uses python 2.7
+
+- `mnist_softmax.py`: https://www.tensorflow.org/get_started/mnist/beginners
+- `plotting.py`: matplotlib helper
 
 Windows Subsystem for Linux
 ===========================

@@ -1,4 +1,4 @@
-from plotting import show
+from plotting import show, show_images
 import os
 import numpy as np
 
@@ -27,13 +27,13 @@ for _ in range(1000):
     batch_xs, batch_ys = mnist.train.next_batch(100)
     sess.run(train_step, feed_dict={X: batch_xs, Y_: batch_ys})
 
+# check accuracy against test set
 correct_prediction = tf.equal(tf.argmax(Y, 1), tf.argmax(Y_, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 print(sess.run(accuracy, feed_dict={X: mnist.test.images, Y_: mnist.test.labels}))
-# show weights
+
+# gets actual weights
 We = W.eval()
+# split by columns, then reshape columns to 28x28
 Wec = [np.reshape(x, (28, 28)) for x in np.hsplit(We, 10)]
-show(np.block([
-    [Wec[0], Wec[1], Wec[2], Wec[3], Wec[4]], 
-    [Wec[5], Wec[6], Wec[7], Wec[8], Wec[9]] 
-]))
+show_images(Wec, 2, ['Class: {}'.format(n) for n in range(10)])
