@@ -28,7 +28,7 @@ def show_images(images, cols = 1, titles = None):
     titles: List of titles corresponding to each image. Must have
             the same length as titles.
     """
-    assert((titles is None)or (len(images) == len(titles)))
+    assert((titles is None) or (len(images) == len(titles)))
     n_images = len(images)
     if titles is None: titles = ['Image (%d)' % i for i in range(1,n_images + 1)]
     fig = plt.figure()

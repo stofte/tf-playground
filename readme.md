@@ -19,3 +19,10 @@ Ensure the matplotlib config uses the QT4 backend: `Qt4Agg`. Use `python -m site
     /usr/local/lib/python2.7/dist-packages/matplotlib/mpl-data/matplotlibrc
     
 Windows folders are mounted under `/mnt/c` and so on for each drive letter.
+
+IPython/Jupyter Notebook
+
+    sudo apt-get install ipython ipython-notebook
+    sudo -H pip install jupyter
+
+Then start the notebook with `jupyter notebook` which should start a server serving the notebook itself.

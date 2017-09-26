@@ -1,15 +1,11 @@
-from plotting import show, show_images
 import os
 import numpy as np
-
-from tensorflow.examples.tutorials.mnist import input_data
 import tensorflow as tf
+from plotting import show, show_images
+from tensorflow.examples.tutorials.mnist import input_data
 
 mnist_path = '/mnt/c/src/tf-playground/mnist'
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
-
-# read data
-mnist = input_data.read_data_sets(mnist_path, one_hot=True)
 
 # setup model
 X = tf.placeholder(tf.float32, [None, 784], 'X')
