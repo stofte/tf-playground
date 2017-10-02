@@ -1,7 +1,7 @@
 Tensorflow playground
 =====================
     
-Uses python 2.7
+Uses python 2.7 (PySide doesnt support 3.5, only 3.2, so for this component 2.* is required assuming QT backend is used)
 
 - `mnist_softmax.py`: https://www.tensorflow.org/get_started/mnist/beginners
 - `plotting.py`: matplotlib helper
@@ -26,3 +26,9 @@ IPython/Jupyter Notebook
     sudo -H pip install jupyter
 
 Then start the notebook with `jupyter notebook` which should start a server serving the notebook itself.
+
+[Xming](https://sourceforge.net/projects/xming/) is a X server for Windows, it'll allow the use of GUI elements from LXSS. Xming can be started anytime after Bash, but setting the following in `~/.bashrc` is also required:
+
+    export DISPLAY=:0
+
+
