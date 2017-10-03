@@ -15,7 +15,7 @@ def show(image):
     plt.show()
 
 # https://gist.github.com/soply/f3eec2e79c165e39c9d540e916142ae1
-def show_images(images, cols = 1, titles = None):
+def show_images(images, cols = 1, titles = None, figwidth=15):
     """Display a list of images in a single figure with matplotlib.
     
     Parameters
@@ -34,9 +34,11 @@ def show_images(images, cols = 1, titles = None):
     fig = plt.figure()
     for n, (image, title) in enumerate(zip(images, titles)):
         a = fig.add_subplot(cols, np.ceil(n_images/float(cols)), n + 1)
-        if image.ndim == 2:
-            plt.gray()
         plt.imshow(image)
         a.set_title(title)
+    # Todo fix constants here, shouldd determine divide factor from input and columns
+    fig.set_figwidth(figwidth)
+    fig.set_figheight(figwidth / 5 + (figwidth * 0.25))
     # fig.set_size_inches(np.array(fig.get_size_inches()) * n_images)
+    fig.subplots_adjust(hspace=0.1)
     plt.show()
