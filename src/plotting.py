@@ -1,7 +1,6 @@
-import matplotlib.pyplot as plt
-from matplotlib.colors import LinearSegmentedColormap
-import numpy as np
 import math as math
+import numpy as np
+import matplotlib.pyplot as plt
 
 # https://gist.github.com/soply/f3eec2e79c165e39c9d540e916142ae1
 def show_images(images, titles=None, figwidth=3, cols=1, colorbar=None):
@@ -23,18 +22,15 @@ def show_images(images, titles=None, figwidth=3, cols=1, colorbar=None):
     """
     assert(titles is None) or (len(images) == len(titles))
     n_images = len(images)
+    n_cols = math.ceil(n_images / cols)
+    n_rows = math.ceil(n_images / n_cols)
 
     if titles is None:
         titles = ['Image (%d)' % i for i in range(1, n_images + 1)]
 
-    n_cols = math.ceil(n_images / cols)
-    n_rows = math.ceil(n_images / n_cols)
-    figure_width = figwidth * n_cols
-    figure_height = figwidth * (n_rows + 0.2)
-
     fig = plt.figure()
-    fig.set_figwidth(figure_width)
-    fig.set_figheight(figure_height)
+    fig.set_figwidth(figwidth * n_cols)
+    fig.set_figheight(figwidth * (n_rows + 0.2))
 
     vmax = max([m.max() for m in images])
     vmin = min([m.min() for m in images])
