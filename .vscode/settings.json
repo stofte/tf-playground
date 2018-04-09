@@ -1,5 +1,7 @@
 {
     "files.exclude": {
-        "**/*.pyc": true
+        "**/*.pyc": true,
+        "src/__pycache__": true,
+        "src/.ipynb_checkpoints": true
     }
 }
