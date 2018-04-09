@@ -1,47 +1,90 @@
+"""
+Plotting helper module
+Modified from https://gist.github.com/soply/f3eec2e79c165e39c9d540e916142ae1
+"""
 import math as math
-import numpy as np
+import matplotlib.pyplot as plt # pylint: disable=E0401
+
+from JSAnimation.IPython_display import display_animation
+from matplotlib import animation
+from IPython.display import display
+from IPython.core.display import HTML
+from mpl_toolkits import axes_grid1
 import matplotlib.pyplot as plt
 
-# https://gist.github.com/soply/f3eec2e79c165e39c9d540e916142ae1
-def show_images(images, titles=None, figwidth=3, cols=1, colorbar=None):
-    """Display a list of images in a single figure with matplotlib.
+class Recorder:
+    def __modifymarkup(self, markup):
+        lines = markup.splitlines()
 
-    Parameters
-    ---------
-    images: List of np.arrays compatible with plt.imshow.
+        return markup
 
-    cols (Default = 1): Number of columns in figure (number of rows is
-                        set to np.ceil(n_images/float(cols))).
+    def render(self, frames):
+        """
+        Displays a list of frames as a gif, with controls
+        """
+        plt.figure(figsize=(frames[0].shape[1] / 72.0, frames[0].shape[0] / 72.0), dpi = 72)
+        patch = plt.imshow(frames[0])
+        plt.axis('off')
 
-    titles: List of titles corresponding to each image. Must have
-            the same length as titles.
+        def animate(i):
+            patch.set_data(frames[i])
 
-    figwidth: Width of plot in inches
+        anim = animation.FuncAnimation(plt.gcf(), animate, frames = len(frames), interval=50)
+        wrapped_anim = display_animation(anim, default_mode='loop')
+        # dumps a html fragment
+        html = self.__modifymarkup(wrapped_anim._repr_html_())
+        print(html)
+        display(HTML(html))
 
-    colorbar: 4 element list for positioning the colorbar
+class MultiPlot:
     """
-    assert(titles is None) or (len(images) == len(titles))
-    n_images = len(images)
-    n_cols = math.ceil(n_images / cols)
-    n_rows = math.ceil(n_images / n_cols)
+    Matplotlib helper module renders multiple plots to be drawn in a single figure using a grid
+    Modified from https://gist.github.com/soply/f3eec2e79c165e39c9d540e916142ae1
+    """
+    default_plot_width_inches = 20
+    def __init__(self):
+        self.images = []
+        self.n_images = 0
+        self.n_rows = 0
+        self.n_cols = 0
+        self.titles = []
 
-    if titles is None:
-        titles = ['Image (%d)' % i for i in range(1, n_images + 1)]
+    def data(self, images, titles):
+        """
+        Sets the matrixes (and possibly titles) which will be plotted
+        """
+        self.images = images
+        self.n_images = len(images)
+        self.n_rows = 0
+        self.n_cols = 0
+        if titles is None:
+            titles = ['Image (%d)' % i for i in range(1, self.n_images + 1)]
+        self.titles = titles        
 
-    fig = plt.figure()
-    fig.set_figwidth(figwidth * n_cols)
-    fig.set_figheight(figwidth * (n_rows + 0.2))
+    def render(self, plot_width, plot_height, columns, colorbar):
+        """
+        Renders the multiple plots within a single figure
 
-    vmax = max([m.max() for m in images])
-    vmin = min([m.min() for m in images])
+        Parameters
+        ---------
+        plotwidth: width of an individual plot
 
-    for index, (image, title) in enumerate(zip(images, titles)):
-        axis = fig.add_subplot(cols, np.ceil(n_images/float(cols)), index + 1, aspect='equal')
-        axis.set_title(title)
-        image_ref = axis.pcolor(image, cmap='bwr', vmin=vmin, vmax=vmax)
+        columns: number of columns
+        """
+        self.n_rows = math.ceil(self.n_images / columns)
+        self.n_cols = math.ceil(self.n_images / self.n_rows)
+        fig = plt.figure()
+        fig.set_figwidth(plot_width)
+        fig.set_figheight(plot_height + self.default_plot_width_inches * 0.1)
 
-    if colorbar is not None:
-        cbar_ax = fig.add_axes(colorbar)
-        fig.colorbar(image_ref, cax=cbar_ax, cmap='bwr')
+        vmin = min([m.min() for m in self.images])
+        vmax = max([m.max() for m in self.images])
 
-    plt.show()
+        for index, (image, title) in enumerate(zip(self.images, self.titles)):
+            axis = fig.add_subplot(self.n_cols, self.n_cols, index + 1, aspect='equal')
+            axis.set_title(title)
+            image_ref = axis.pcolor(image, cmap='bwr', vmin=vmin, vmax=vmax)
+        if colorbar is not None:
+            cbar_ax = fig.add_axes(colorbar)
+            fig.colorbar(image_ref, fraction=0.046, cax=cbar_ax, cmap='bwr')
+        plt.show()
