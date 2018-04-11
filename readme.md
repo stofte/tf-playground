@@ -8,3 +8,4 @@ Notes:
  - Code tested against v. 1.7.0/py36//GPU/cuda91cudnn71avx2 (`tensorflow_gpu-1.7.0-cp36-cp36m-win_amd64.whl`)
  - Measure perf on Windows: `powershell -Command "Measure-Command { python script.py | Out-Default}"`
  - `jupyter notebook` for launching Jupyter
+ 
