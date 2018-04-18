@@ -28,3 +28,4 @@ TODOS
  - Use checkpoints to deploy the model for production
  - 5-fold validation relevant?
  - Use Keras to implement CNN
+ - [Progress bars?](https://github.com/bstriner/keras-tqdm)
