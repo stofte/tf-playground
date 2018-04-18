@@ -1,5 +1,23 @@
+import os
+import sys
+import datetime
 import numpy as np
 from IPython.display import display, HTML
+
+def output_folder(prefix='output-', folderpath=['logs']):
+    relpath = os.path.join(os.path.dirname(__file__), '..', '..', *folderpath)
+    ts = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+    f = '{}{}'.format(prefix, ts)
+    return os.path.abspath(os.path.join(relpath, f))
+
+def folder_size(path='.'):
+    total = 0
+    for entry in os.scandir(path):
+        if entry.is_file():
+            total += entry.stat().st_size
+        elif entry.is_dir():
+            total += folder_size(entry.path)
+    return total
 
 def strip_consts(tf, graph_def, max_const_size=32):
     """
