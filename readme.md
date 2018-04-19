@@ -18,6 +18,7 @@ Software/library versions:
  - jupyter 1.0
  - tensorflow 1.7
  - gym 0.10.5
+ - [GraphViz 2.38](https://graphviz.gitlab.io/_pages/Download/Download_windows.html) (Keras visualization)
 
 Notes:
 
