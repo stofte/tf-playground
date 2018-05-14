@@ -2,7 +2,11 @@ import os
 import sys
 import datetime
 import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.image as pltim
 from IPython.display import display, HTML
+from JSAnimation.IPython_display import display_animation
+from matplotlib import animation
 
 def output_folder(prefix='output-', folderpath=['logs']):
     relpath = os.path.join(os.path.dirname(__file__), '..', '..', *folderpath)
@@ -58,3 +62,15 @@ def tf_show_graph(tf, max_const_size=32):
         <iframe seamless style="width:100%;height:620px;border:0" srcdoc="{}"></iframe>
     """.format(code.replace('"', '&quot;'))
     display(HTML(iframe))    
+
+def display_frames_as_video(frames):
+    ax = plt.axes([0,0,1,1], frameon=False)
+    img = plt.imshow(frames[0])
+
+
+    def animate(i):
+        img.set_data(frames[i])
+
+    anim = animation.FuncAnimation(plt.gcf(), animate, frames = len(frames), interval=25)
+    display(HTML(anim.to_html5_video()))
+    plt.close()
