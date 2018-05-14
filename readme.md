@@ -19,6 +19,7 @@ Software/library versions:
  - tensorflow 1.7
  - gym 0.10.5
  - [GraphViz 2.38](https://graphviz.gitlab.io/_pages/Download/Download_windows.html) (Keras visualization)
+ - pyglet 1.2.4 (for `gym`)
 
 Notes:
 
